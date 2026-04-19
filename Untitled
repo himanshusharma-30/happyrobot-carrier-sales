@@ -1,0 +1,16 @@
+cat > .env << 'EOF'
+FMCSA_WEBKEY=paste_your_fmcsa_key_here
+API_KEY=generate_a_random_string_here
+DATABASE_URL=sqlite:///./carrier_sales.db
+EOF
+
+cat > .env.example << 'EOF'
+FMCSA_WEBKEY=your_fmcsa_webkey
+API_KEY=your_api_key_for_happyrobot_to_call
+DATABASE_URL=sqlite:///./carrier_sales.db
+EOF
+
+echo ".env" >> .gitignore
+echo "*.db" >> .gitignore
+echo "__pycache__/" >> .gitignore
+echo ".venv/" >> .gitignore
