@@ -1,0 +1,13 @@
+services:
+  api:
+    build: .
+    container_name: carrier-sales-api
+    ports:
+      - "8000:8000"
+    env_file:
+      - .env
+    volumes:
+      - ./data:/app/data
+    environment:
+      - DATABASE_URL=sqlite:///./data/carrier_sales.db
+    restart: unless-stopped
