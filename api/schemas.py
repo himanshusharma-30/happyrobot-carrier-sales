@@ -19,10 +19,11 @@ class VerifyCarrierResponse(BaseModel):
 
 # ---------- search_loads ----------
 class SearchLoadsRequest(BaseModel):
+    load_id: Optional[str] = None          # NEW
     origin: Optional[str] = None
     destination: Optional[str] = None
     equipment_type: Optional[str] = None
-    pickup_date: Optional[str] = None  # ISO date
+    pickup_date: Optional[str] = None
 
 
 class LoadSummary(BaseModel):

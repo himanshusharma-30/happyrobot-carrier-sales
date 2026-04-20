@@ -14,6 +14,17 @@ async def search_loads(
     payload: SearchLoadsRequest,
     db: Session = Depends(get_db),
 ) -> SearchLoadsResponse:
+    # Direct lookup: if load_id is provided, return just that load
+    if payload.load_id:
+        load = db.query(Load).filter(Load.load_id == payload.load_id.upper()).first()
+        if load:
+            return SearchLoadsResponse(
+                loads=[LoadSummary.model_validate(load, from_attributes=True)],
+                count=1,
+            )
+        return SearchLoadsResponse(loads=[], count=0)
+
+    # Otherwise, filter by lane/equipment
     q = db.query(Load)
     if payload.origin:
         q = q.filter(Load.origin.ilike(f"%{payload.origin}%"))
