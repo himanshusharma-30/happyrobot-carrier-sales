@@ -19,7 +19,9 @@ COPY api/ ./api/
 COPY loads.json .
 
 # Non-root user for security
-RUN useradd --create-home --shell /bin/bash app && chown -R app:app /app
+RUN useradd --create-home --shell /bin/bash app && \
+    mkdir -p /data && \
+    chown -R app:app /app /data
 USER app
 
 # Expose the app port
@@ -31,3 +33,5 @@ HEALTHCHECK --interval=30s --timeout=5s --start-period=10s --retries=3 \
 
 # Start the API with uvicorn (no --reload in prod)
 CMD ["uvicorn", "api.main:app", "--host", "0.0.0.0", "--port", "8000"]
+
+ENV DATABASE_URL=sqlite:////data/carrier_sales.db
