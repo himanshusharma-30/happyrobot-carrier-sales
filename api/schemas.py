@@ -1,8 +1,7 @@
 """Pydantic request/response schemas — the public API contract."""
 from datetime import datetime
 from typing import Literal, Optional
-from pydantic import BaseModel, 
-from pydantic import BaseModel, field_validator
+from pydantic import BaseModel, Field, field_validator
 
 
 # ---------- verify_carrier ----------
@@ -20,7 +19,7 @@ class VerifyCarrierResponse(BaseModel):
 
 # ---------- search_loads ----------
 class SearchLoadsRequest(BaseModel):
-    load_id: Optional[str] = None          # NEW
+    load_id: Optional[str] = None
     origin: Optional[str] = None
     destination: Optional[str] = None
     equipment_type: Optional[str] = None
@@ -64,8 +63,6 @@ class EvaluateOfferResponse(BaseModel):
 
 
 # ---------- calls/events ----------
-
-
 class CallEventRequest(BaseModel):
     call_id: str
     mc_number: Optional[str] = None
@@ -111,9 +108,9 @@ class CallEventResponse(BaseModel):
 class MetricsSummary(BaseModel):
     total_calls: int
     calls_today: int
-    booking_rate: float  # 0–1
+    booking_rate: float
     avg_negotiation_rounds: float
-    avg_rate_delta_pct: float  # avg (final - loadboard) / loadboard
+    avg_rate_delta_pct: float
     outcome_breakdown: dict[str, int]
     sentiment_breakdown: dict[str, int]
 
