@@ -1,7 +1,8 @@
 """Pydantic request/response schemas — the public API contract."""
 from datetime import datetime
 from typing import Literal, Optional
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, 
+from pydantic import BaseModel, field_validator
 
 
 # ---------- verify_carrier ----------
@@ -63,6 +64,8 @@ class EvaluateOfferResponse(BaseModel):
 
 
 # ---------- calls/events ----------
+
+
 class CallEventRequest(BaseModel):
     call_id: str
     mc_number: Optional[str] = None
@@ -76,6 +79,27 @@ class CallEventRequest(BaseModel):
     transcript: Optional[str] = None
     started_at: Optional[datetime] = None
     ended_at: Optional[datetime] = None
+
+    @field_validator('loadboard_rate', 'final_rate', mode='before')
+    @classmethod
+    def empty_string_to_none(cls, v):
+        if v == "" or v is None:
+            return None
+        return v
+
+    @field_validator('mc_number', 'carrier_name', 'load_id', 'transcript', mode='before')
+    @classmethod
+    def empty_to_none_string(cls, v):
+        if v is None or v == [] or v == {} or v == "":
+            return None
+        return str(v)
+
+    @field_validator('num_negotiation_rounds', mode='before')
+    @classmethod
+    def empty_to_zero(cls, v):
+        if v == "" or v is None:
+            return 0
+        return v
 
 
 class CallEventResponse(BaseModel):
