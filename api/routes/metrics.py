@@ -1,6 +1,5 @@
-from datetime import date, datetime
+from datetime import date
 from fastapi import APIRouter, Depends
-from sqlalchemy import func
 from sqlalchemy.orm import Session
 
 from api.auth import require_api_key
@@ -11,8 +10,7 @@ from api.schemas import CallListItem, MetricsSummary
 router = APIRouter(prefix="/metrics", tags=["metrics"])
 
 
-@router.get("/summary", response_model=MetricsSummary, dependencies=[Depends(require_api_key)])
-async def metrics_summary(db: Session = Depends(get_db)) -> MetricsSummary:
+def _compute_summary(db: Session) -> MetricsSummary:
     all_calls = db.query(CallEvent).all()
     total = len(all_calls)
 
@@ -53,11 +51,7 @@ async def metrics_summary(db: Session = Depends(get_db)) -> MetricsSummary:
     )
 
 
-@router.get("/calls", response_model=list[CallListItem], dependencies=[Depends(require_api_key)])
-async def list_calls(
-    limit: int = 50,
-    db: Session = Depends(get_db),
-) -> list[CallListItem]:
+def _list_calls(limit: int, db: Session) -> list[CallListItem]:
     rows = (
         db.query(CallEvent)
         .order_by(CallEvent.created_at.desc())
@@ -65,3 +59,25 @@ async def list_calls(
         .all()
     )
     return [CallListItem.model_validate(r, from_attributes=True) for r in rows]
+
+
+# ---------- Auth'd (internal) ----------
+@router.get("/summary", response_model=MetricsSummary, dependencies=[Depends(require_api_key)])
+async def metrics_summary(db: Session = Depends(get_db)) -> MetricsSummary:
+    return _compute_summary(db)
+
+
+@router.get("/calls", response_model=list[CallListItem], dependencies=[Depends(require_api_key)])
+async def list_calls(limit: int = 50, db: Session = Depends(get_db)) -> list[CallListItem]:
+    return _list_calls(limit, db)
+
+
+# ---------- Public (for the Lovable dashboard, no auth required) ----------
+@router.get("/public/summary", response_model=MetricsSummary)
+async def public_metrics_summary(db: Session = Depends(get_db)) -> MetricsSummary:
+    return _compute_summary(db)
+
+
+@router.get("/public/calls", response_model=list[CallListItem])
+async def public_list_calls(limit: int = 50, db: Session = Depends(get_db)) -> list[CallListItem]:
+    return _list_calls(limit, db)
