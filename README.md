@@ -13,7 +13,8 @@ An AI voice agent that handles inbound carrier sales calls for a freight brokera
 | **Loom Walkthrough** | _[paste Loom URL]_ |
 
 ## Architecture
-<img width="246" height="262" alt="image" src="https://github.com/user-attachments/assets/ffab58b2-cd43-4794-9b2b-74d62d2ee9d1" />
+<img width="415" height="461" alt="image" src="https://github.com/user-attachments/assets/ecadcc72-8f2d-4858-bdaa-ee9e2423e02a" />
+
 
 
 
