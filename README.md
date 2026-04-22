@@ -13,7 +13,8 @@ An AI voice agent that handles inbound carrier sales calls for a freight brokera
 | **Loom Walkthrough** | _[paste Loom URL]_ |
 
 ## Architecture
-<img width="246" height="262" alt="image" src="https://github.com/user-attachments/assets/5dcd8e53-0011-4e86-8ffb-234a7df9aaa5" />
+<img width="246" height="262" alt="image" src="https://github.com/user-attachments/assets/ffab58b2-cd43-4794-9b2b-74d62d2ee9d1" />
+
 
 
 **Key design decision:** the LLM handles conversation; deterministic Python handles money. The negotiation engine is a pure function in `api/negotiation.py` with broker-configurable multipliers — not LLM-driven. This makes rate decisions auditable, unit-testable, and cheap to change.
