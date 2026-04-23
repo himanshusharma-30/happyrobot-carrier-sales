@@ -9,7 +9,7 @@ An AI voice agent that handles inbound carrier sales calls for a freight brokera
 | **Live API** | https://happyrobot-carrier-sales-small-grass-4260.fly.dev |
 | **API Docs (Swagger)** | https://happyrobot-carrier-sales-small-grass-4260.fly.dev/docs |
 | **Dashboard** | https://carrier-call-insights.lovable.app |
-| **HappyRobot Workflow** |https://platform.happyrobot.ai/fdehimanshusharma/workflows/aa508woutqet|
+| **HappyRobot Workflow** |https://platform.happyrobot.ai/fdehimanshusharma/workflows/aa508woutqet , https://platform.happyrobot.ai/deployments/aa508woutqet/gaku6z4marbl|
 | **Loom Walkthrough** | _[paste Loom URL]_ |
 
 ## Architecture
